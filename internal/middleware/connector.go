@@ -87,3 +87,24 @@ func (con *Connector) GetAllStudents(c *gin.Context) {
 		"user": users,
 	})
 }
+
+func (con *Connector) Search(c *gin.Context) {
+	queryParams := c.Request.URL.Query()
+	name := queryParams.Get("name")
+	subject := queryParams.Get("subject")
+	class := queryParams.Get("class")
+	fee_status := queryParams.Get("fee_status")
+
+	users, err := con.accessor.Search(c.Request.Context(), database.SearchParams{
+		Name:      name,
+		Subject:   subject,
+		Class:     class,
+		FeeStatus: fee_status,
+	})
+	if err != nil {
+		c.Status(400)
+	}
+	c.JSON(200, gin.H{
+		"user": users,
+	})
+}
