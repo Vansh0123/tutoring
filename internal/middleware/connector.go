@@ -67,27 +67,6 @@ func (con *Connector) RegisterStudent(c *gin.Context) {
 
 }
 
-func (con *Connector) GetStudentByName(c *gin.Context) {
-	name := c.Param("name")
-	user, err := con.accessor.GetStudentByName(c.Request.Context(), name)
-	if err != nil {
-		c.Status(400)
-	}
-	c.JSON(200, gin.H{
-		"user": user,
-	})
-}
-
-func (con *Connector) GetAllStudents(c *gin.Context) {
-	users, err := con.accessor.GetAllStudents(c.Request.Context())
-	if err != nil {
-		c.Status(400)
-	}
-	c.JSON(200, gin.H{
-		"user": users,
-	})
-}
-
 func (con *Connector) Search(c *gin.Context) {
 	queryParams := c.Request.URL.Query()
 	name := queryParams.Get("name")
