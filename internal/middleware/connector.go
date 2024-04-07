@@ -16,7 +16,7 @@ type Connector struct {
 	accessor *database.Queries
 }
 
-func (c *Connector) Connect() {
+func (c *Connector) EstablishConnectionWithDatabase() {
 	log.Print(os.Getenv("DB_URI"))
 	conn, err := sql.Open("postgres", os.Getenv("DB_URI"))
 	if err != nil {
@@ -34,6 +34,7 @@ func (con *Connector) RegisterStudent(c *gin.Context) {
 		FeeStatus string `json:"fee_status" binding:"required"`
 	}
 	var rBody reqBody
+
 	if err := c.Bind(&rBody); err != nil {
 		c.JSON(400, gin.H{
 			"error": "Bad Request : One of the field might be empty or wrong",
@@ -66,7 +67,7 @@ func (con *Connector) RegisterStudent(c *gin.Context) {
 
 }
 
-func (con *Connector) GetStudent(c *gin.Context) {
+func (con *Connector) GetStudentByName(c *gin.Context) {
 	name := c.Param("name")
 	user, err := con.accessor.GetStudentByName(c.Request.Context(), name)
 	if err != nil {

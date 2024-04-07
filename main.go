@@ -14,18 +14,13 @@ func init() {
 	if err := godotenv.Load(); err != nil {
 		log.Fatal("Error loading .env file")
 	}
-	cnx.Connect()
-}
-
-func init() {
-	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	cnx.EstablishConnectionWithDatabase()
 }
 func main() {
 	router := gin.Default()
-	router.POST("/students", cnx.RegisterStudent)
-	router.GET("/students/:name", cnx.GetStudent)
-	router.GET("/students", cnx.GetAllStudents)
+	router.POST("tutoring/students", cnx.RegisterStudent)
+	router.GET("tutoring/students/:name", cnx.GetStudentByName)
+	router.GET("tutoring/students", cnx.GetAllStudents)
+	router.GET("tutoring/search", cnx.Search)
 	router.Run()
 }
