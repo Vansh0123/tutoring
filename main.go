@@ -2,13 +2,13 @@ package main
 
 import (
 	"log"
-	"tutoring/internal/database"
+	"tutoring/internal/middleware"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
-var cnx database.Connector
+var cnx middleware.Connector
 
 func init() {
 	if err := godotenv.Load(); err != nil {
@@ -24,7 +24,8 @@ func init() {
 }
 func main() {
 	router := gin.Default()
-	router.POST("/student", cnx.RegisterStudent)
-	router.GET("/student/:name", cnx.GetStudent)
+	router.POST("/students", cnx.RegisterStudent)
+	router.GET("/students/:name", cnx.GetStudent)
+	router.GET("/students", cnx.GetAllStudents)
 	router.Run()
 }

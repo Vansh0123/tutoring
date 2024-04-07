@@ -5,3 +5,6 @@ RETURNING *;
 
 -- name: GetStudentByName :one
 Select * FROM students WHERE name = $1;
+
+-- name: GetAllStudents :many
+Select * FROM students;
